@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Dog Picture Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Random Dog Picture Generator</h1>
+        <button onclick="fetchRandomDogPicture()">Fetch Random Dog Picture</button>
+        <div id="dogPictureContainer">
+            <!-- Dog picture will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        function fetchRandomDogPicture() {
+            // Make a GET request to the Dog CEO API
+            fetch('https://dog.ceo/api/breeds/image/random')
+            .then(response => response.json())
+            .then(data => {
+                // Check if the request was successful
+                if (data.status === 'success') {
+                    // Get the URL of the random dog picture
+                    const dogPictureUrl = data.message;
+                    // Display the dog picture in an image element
+                    document.getElementById('dogPictureContainer').innerHTML = `<img src="${dogPictureUrl}" alt="Random Dog Picture">`;
+                } else {
+                    // Display an error message if the request failed
+                    document.getElementById('dogPictureContainer').innerHTML = '<p>Failed to fetch random dog picture. Please try again later.</p>';
+                }
+            })
+            .catch(error => {
+                // Display an error message if there was an error during the request
+                document.getElementById('dogPictureContainer').innerHTML = '<p>An error occurred while fetching random dog picture. Please try again later.</p>';
+                console.error('Error fetching random dog picture:', error);
+            });
+        }
+    </script>
+</body>
+</html>
